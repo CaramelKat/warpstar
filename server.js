@@ -7,8 +7,8 @@ const axios = require('axios');
 const { URL } = require('./url');
 const { mongoose: mongooseConfig } = require('./config.json');
 const { uri, database, options } = mongooseConfig;
-const { tokens: tokens } = require('./config.json');
-const { APP_ID, APP_SECRET } = tokens;
+const { github: github } = require('./config.json');
+const { domain, APP_ID, APP_SECRET } = github;
 const { emails: emails } = require('./config.json');
 const { port: PORT } = require('./config.json');
 
@@ -33,7 +33,7 @@ function verifyConnected() {
  */
 const params = queryString.stringify({
     client_id: APP_ID,
-    redirect_uri: 'https://config.jemverse.xyz/config',
+    redirect_uri: `${domain}/config`,
     scope: ['read:user', 'user:email'].join(' '), // space seperated string
     allow_signup: true,
 });
@@ -47,7 +47,7 @@ async function getAccessTokenFromCode(code) {
         params: {
             client_id: APP_ID,
             client_secret: APP_SECRET,
-            redirect_uri: 'https://config.jemverse.xyz/config',
+            redirect_uri: `${domain}/config`,
             code,
         },
     });

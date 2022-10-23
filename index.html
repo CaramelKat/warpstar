@@ -22,10 +22,58 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <div class="container">
+        <div class="col-md-4">
+            <h1>Domains</h1>
+            <button onclick="loadDomains();" class="btn btn-primary">🔃</button>
+        </div>
+        <table class="table table-bordered table-striped" id="pnids">
+            <thead>
+            <tr>
+                <th scope="col">Domain</th>
+                <th scope="col">Destination</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody id="domains">
+            </tbody>
+        </table>
+    </div>
 </body>
 <script>
     function loadDomains() {
+        let domainsContainer = document.getElementById('domains');
+        domainsContainer.innerHTML = "";
+        const request = new Request('/config/domains.json', {
+            method: 'GET'
+        });
+        fetch(request)
+            .then((response) => {
+                response.json().then((data) => {
+                    for(let url of data) {
+                        let row = document.createElement('tr')
+                        let domain = document.createElement('td');
+                        let destination = document.createElement('td');
+                        let buttonWrapper = document.createElement('td');
+                        let button = document.createElement('button');
+                        domain.className = 'text-center align-middle';
+                        domain.innerText = url.domain;
+                        destination.className = 'text-center align-middle';
+                        destination.innerText = url.destination;
+                        buttonWrapper.className = 'text-center align-middle';
+                        button.className = 'btn btn-primary';
+                        button.type = 'button';
+                        //button.onclick = `location.href=/config/delete/${url._id}`;
+                        button.innerText = 'Delete';
+                        buttonWrapper.appendChild(button);
 
+                        row.appendChild(domain);
+                        row.appendChild(destination);
+                        row.appendChild(buttonWrapper)
+                        domainsContainer.appendChild(row)
+                    }
+                })
+            });
     }
 </script>
 </html>
