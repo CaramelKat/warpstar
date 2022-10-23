@@ -6,5 +6,10 @@
     "options": {
       "useNewUrlParser": true
     }
-  }
+  },
+  "tokens": {
+    "APP_ID": "",
+    "APP_SECRET": ""
+  },
+  "emails": [""]
 }
